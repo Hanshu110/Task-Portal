@@ -9,3 +9,8 @@ The Faculty Task Assignment Portal is a standalone web application designed to a
 - **Task Management:** Update task details such as description, type, and status.
 - **Duplicate Prevention:** Prevent duplicate task assignments.
 - **Data Storage:** Store and retrieve all task-related information securely.
+
+Includes features such as creation, modification of timetable for a departme,import data using excel file 
+Generating and saving timetable as pdf using jsPDF.
+
+Note: downlaod and place jsPDF api in the location '..../TTMS/files/assets/' .
