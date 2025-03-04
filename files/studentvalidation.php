@@ -7,8 +7,9 @@
     <meta name="author" content=""/>
     <title>Task Portal</title>
     <!-- BOOTSTRAP CORE STYLE CSS -->
-    <script type="text/javascript" src="assets/jsPDF/dist/jspdf.min.js"></script>
-    <script type="text/javascript" src="assets/js/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <link href="assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- FONT AWESOME CSS -->
     <link href="assets/css/font-awesome.min.css" rel="stylesheet"/>
@@ -144,11 +145,26 @@
             }
             ?>
 </div>
-<script type="text/javascript">
+<script>
     function gendf() {
-        var doc = new jsPDF();
-        doc.addHTML(document.getElementById('TT'), function () {
-            doc.save('<?php echo "ttms semester " . $_POST["select_semester"]?>' + '.pdf');
+        const { jsPDF } = window.jspdf;
+        var doc = new jsPDF("p", "mm", "a4"); // A4 page size
+
+        html2canvas(document.getElementById('TT'), { scale: 2 }).then(canvas => {
+            var imgData = canvas.toDataURL('image/png');
+            var imgWidth = 190; // A4 width
+            var imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+            doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+            doc.save('<?php
+                if (isset($_POST["select_semester"])) {
+                    echo "ttms semester " . $_POST["select_semester"];
+                } else if (isset($_POST["select_teacher"])) {
+                    echo "ttms " . $_POST["select_teacher"];
+                } else if (isset($_SESSION["loggedin_id"])) {
+                    echo "ttms " . $_SESSION["loggedin_id"];
+                }
+            ?>' + '.pdf');
             alert("Downloaded!");
         });
     }
