@@ -9,8 +9,9 @@ session_start();
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Task Portal</title>
-    <script type="text/javascript" src="assets/jsPDF/dist/jspdf.min.js"></script>
-    <script type="text/javascript" src="assets/js/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <!-- BOOTSTRAP CORE STYLE CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- FONT AWESOME CSS -->
@@ -231,26 +232,33 @@ session_start();
                 ?>
     </div>
 </div>
-<script type="text/javascript">
+
+<script>
     function gendf() {
-        var doc = new jsPDF();
+        const { jsPDF } = window.jspdf;
+        var doc = new jsPDF("p", "mm", "a4"); // A4 page size
 
-        doc.addHTML(document.getElementById('TT'), function () {
+        html2canvas(document.getElementById('TT'), { scale: 2 }).then(canvas => {
+            var imgData = canvas.toDataURL('image/png');
+            var imgWidth = 190; // A4 width
+            var imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+            doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
             doc.save('<?php
-                    if (isset($_POST["select_semester"])) {
-                        echo "ttms semester " . $_POST["select_semester"];
-                    } else if (isset($_POST["select_teacher"])) {
-                        echo "ttms " . $_POST["select_teacher"];
-                    } else if (isset($_SESSION["loggedin_id"])) {
-                        echo "ttms " . $_SESSION["loggedin_id"];
-                    }
-                    ?>' + '.pdf');
+                if (isset($_POST["select_semester"])) {
+                    echo "ttms semester " . $_POST["select_semester"];
+                } else if (isset($_POST["select_teacher"])) {
+                    echo "ttms " . $_POST["select_teacher"];
+                } else if (isset($_SESSION["loggedin_id"])) {
+                    echo "ttms " . $_SESSION["loggedin_id"];
+                }
+            ?>' + '.pdf');
             alert("Downloaded!");
-
         });
     }
-
 </script>
+
+
 <div align="center" style="margin-top: 10px">
     <button id="saveaspdf" class="btn btn-info btn-lg" onclick="gendf()">SAVE AS PDF</button>
 </div>
