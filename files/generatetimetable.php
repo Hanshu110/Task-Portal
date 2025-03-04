@@ -13,8 +13,9 @@ if (isset($_GET['success'])) {
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Task Portal</title>
-    <script type="text/javascript" src="assets/jsPDF/dist/jspdf.min.js"></script>
-    <script type="text/javascript" src="assets/js/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <!-- BOOTSTRAP CORE STYLE CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- FONT AWESOME CSS -->
@@ -395,4 +396,5 @@ if (isset($_GET['success'])) {
 <!--  Custom Scripts -->
 <script src="assets/js/custom.js"></script>
 </body>
+
 </html>
