@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: MSaqib
- * Date: 23-09-2016
- * Time: 22:04
- */
+
 include 'connection.php';
 if (isset($_POST['CN'])) {
     $name = $_POST['CN'];
